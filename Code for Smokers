@@ -16,20 +16,14 @@ mu = 1/80       # Birth rate
 beta = 1/18     # Potential to Smoker
 gamma = 0.088   # Smoker to quit
 
-
-
-C = gamma/mu
-B = beta/mu
-
-
 # Initial conditions
-x0 = 0.6  # Initial number of potential smokers.
-y0 = 0.4  # Initial number of smokers.
-z0 = 0.0  # Initial number of people who have permanently quit smoking.
+x0 = 0.544  # Initial number of potential smokers.
+y0 = 0.456  # Initial number of smokers.
+z0 = 0.0    # Initial number of people who have permanently quit smoking.
 w0 = [x0, y0, z0]
 
 # Time points
-t = np.linspace(0, 6, 1000)
+t = np.linspace(0, 10, 1000)
 
 # Solve the ODE
 solution = odeint(model, w0, t, args=(mu, beta, gamma))
@@ -42,7 +36,7 @@ z_values = solution[:, 2]
 plt.plot(t, x_values, 'b', label='x(t)')
 plt.plot(t, y_values, 'r', label='y(t)')
 plt.plot(t, z_values, 'g', label='z(t)')
-plt.xlabel('Time/ years')
+plt.xlabel('Time ($τ$)/ years')
 plt.ylabel('Proportion of the total Population')
 plt.title('Smoking Model')
 plt.savefig('Basic Task.pdf')
@@ -54,10 +48,10 @@ plt.show()
 # Define the system of differential equations
 def model(w, t, mu, mup, mul, mus, muq, beta, gamma, zeta, delta, alpha, k):
     x, l, y, z = w
-    dxdt = mu - beta * x * y - alpha * x * l - (mu + mup) * x + delta * z
-    dldt = alpha * x * l + beta * x * y - (mu + mul + k + zeta) * l
-    dydt = zeta * l - (mu + mus + gamma) * y
-    dzdt = k * l + gamma * y - (mu + muq + delta) * z
+    dxdt = mu - beta * x * y - alpha * x * l - (mup) * x + delta * z
+    dldt = alpha * x * l + beta * x * y - (mul + k + zeta) * l
+    dydt = zeta * l - (mus + gamma) * y
+    dzdt = k * l + gamma * y - (muq + delta) * z
     return [dxdt, dldt, dydt, dzdt]
 
 # Set parameter values
@@ -68,20 +62,20 @@ mus = 1/65        # Death rate of smokers
 muq = 1/72        # Death rate of quit
 beta = 1/18       # Potential to Smoker
 gamma = 0.088     # Smoker to quit
-k = 0.15          # Light to quit
+k = 0.11          # Light to quit
 zeta = 1/13.5     # Light to heavy
 delta = 0.5       # Quit to potential smokers
-alpha = 1/15      # Potential smoker to smoker due to number of light smokers
+alpha = 1/10      # Potential smoker to light smoker due to number of light smokers
 
 # Initial conditions
-x0 = 0.30         # Initial number of potential smokers.
-l0 = 0.20         # Initial number of light smokers
-y0 = 0.17         # Initial number of smokers.
-z0 = 0.33         # Initial number of people who have permanently quit smoking.
+x0 = 0.544         # Initial number of potential smokers.
+l0 = 0.0         # Initial number of light smokers
+y0 = 0.456         # Initial number of smokers.
+z0 = 0.0           # Initial number of people who have permanently quit smoking.
 w0 = [x0, l0, y0, z0]
 
 # Time points
-t = np.linspace(0, 50, 10000)
+t = np.linspace(0, 100, 10000)
 
 # Solve the ODE
 solution = odeint(model, w0, t, args=(mu, mup, mul, mus, muq, beta, gamma, zeta, delta, alpha, k))
@@ -103,10 +97,3 @@ plt.legend()
 plt.grid(True)
 plt.savefig('Extension.pdf')
 plt.show()
-
-print(x_values[-1])
-print(l_values[-1])
-print(y_values[-1])
-print(z_values[-1])
-print('Check:',x_values[-1]+l_values[-1]+y_values[-1]+z_values[-1])
-print('Percentage of smokers=', (l_values[-1]+y_values[-1])*100, '%')
