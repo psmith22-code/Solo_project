@@ -69,8 +69,8 @@ alpha = 1/10      # Potential smoker to light smoker due to number of light smok
 
 # Initial conditions
 x0 = 0.544         # Initial number of potential smokers.
-l0 = 0.0         # Initial number of light smokers
-y0 = 0.456         # Initial number of smokers.
+l0 = 0.33744         # Initial number of light smokers
+y0 = 0.11856         # Initial number of smokers.
 z0 = 0.0           # Initial number of people who have permanently quit smoking.
 w0 = [x0, l0, y0, z0]
 
