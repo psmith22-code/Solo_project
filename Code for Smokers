@@ -45,6 +45,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+#New Model
 # Define the system of differential equations
 def model(w, t, mu, mup, mul, mus, muq, beta, gamma, zeta, delta, alpha, k):
     x, l, y, z = w
